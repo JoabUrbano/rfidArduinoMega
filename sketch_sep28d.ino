@@ -25,6 +25,7 @@ void setup() {
   pinMode(PINO_BUZZER , OUTPUT); // Define PINO_BUZZER (pino 26) como saída
   digitalWrite(PINO_LED_RED, HIGH);  // Define o LED vermelho como alto por padrão
 }
+
 void loop() {
   if (!mfrc522.PICC_IsNewCardPresent()) return; // Aguarda a aproximação do token
   if (!mfrc522.PICC_ReadCardSerial()) return; // Seleciona qual token vai ser utilizado 
@@ -50,7 +51,7 @@ void loop() {
   conteudo.toUpperCase(); // Coloca todas as letras da string em maiúscula
 
   /* Verificação do cartão lido */
-  if(conteudo.substring(1) == "73 2E 88 11") { // Verifica se o cartão colocado é o correto
+  if(conteudo.substring(1) == "73 2E 88 11") { // Verifica se o cartão colocado é o correto, esse código você substitui pelo do seu cartão
     // Vai imprimir a mensagem, apagar o LED vermelho e ascender o verde por 10 segundos e zera as tentativas erradas
     Serial.println("Acesso Permitido!");
     digitalWrite(PINO_LED_RED, LOW);
@@ -87,6 +88,8 @@ void loop() {
     }
     digitalWrite(PINO_BUZZER, LOW);
     tentativasInvalidas = 0; // Zera as tentativas apos os 30 segundos para não nterromper o código
+    // Nesse caso poderia bloquear o sistema e esperar o acionamento de algum botão para o código seguir
+    // Dessa forma o sistema só liberaria quando esse botão que estaria em um lugar seguro fosse acionado
   }
   delay(1000);
 }
